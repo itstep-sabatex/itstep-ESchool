@@ -8,5 +8,17 @@
 - Зведена таблиця руху учнів.
 - Зауваження до ведення класного журналу.
 - Окремий інтерфейс для додаткової інформації про контрольні роботи.
-# Список завдань (Backend)
+# Список завдань (Backend) New 
 - [ ] Створити модель даних.
+
+# Team
+
+| NickName    |    Role    |
+| ----------  | ---------- |
+| @sabatex    | TeamLeader |
+| @supalapka  | Developer  |
+| @HrabV      | Developer  |
+| @developmentservice | Developer |
+| @vitalii-pokrivchak | Developer |
+| @PetroToroni | Developer |
+| @YevhenSavenko | Developer|
