@@ -28,7 +28,9 @@ namespace ESchoolRazor.Pages.Students
         [BindProperty(SupportsGet = true)]
         public string EmailSearch { get; set; }
 
-        public async Task OnGetAsync(string NameSearch,string PhoneSearch,string EmailSearch)
+        public string FilterString => $"Name={NameSearch}; Phone={PhoneSearch}; Email={EmailSearch}";
+        public bool IsFiltered => !string.IsNullOrWhiteSpace(NameSearch) || !string.IsNullOrWhiteSpace(PhoneSearch) || !string.IsNullOrWhiteSpace(EmailSearch);
+        public async Task OnGetAsync()
         {
             var sl = _context.Students.AsQueryable();
             if (!string.IsNullOrWhiteSpace(NameSearch))

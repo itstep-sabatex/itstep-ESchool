@@ -18,10 +18,13 @@ namespace ESchoolRazor.Pages.Students
         public EditModel(ESchoolRazor.Data.ApplicationDbContext context)
         {
             _context = context;
+            //listItemsFormOfEducation = num.GetValues(typeof(FormOfEducation)).Select(s => new SelectListItem() {Text=s. });
         }
 
         [BindProperty]
         public Student Student { get; set; }
+
+        public IEnumerable<SelectListItem> listItemsFormOfEducation { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

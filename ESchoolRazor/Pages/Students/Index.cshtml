@@ -19,6 +19,10 @@
         <input type="submit" value="Filter" />
     </p>
 </form>
+@if (Model.IsFiltered)
+{
+    <p>Filter: @Model.FilterString</p>
+}
 <table class="table">
     <thead>
         <tr>

@@ -41,6 +41,7 @@ namespace ESchool.Models
         [Display(Name = "Електронна пошта")]
         public string Email { get; set; }
 
+        public FormOfEducation FormOfEducation { get; set; }
 
         public override string ToString()
         {
