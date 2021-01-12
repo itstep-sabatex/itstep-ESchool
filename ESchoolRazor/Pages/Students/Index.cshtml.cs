@@ -25,15 +25,20 @@ namespace ESchoolRazor.Pages.Students
         public string NameSearch { get; set; }
         [BindProperty(SupportsGet = true)]
         public string PhoneSearch { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string EmailSearch { get; set; }
 
-        public async Task OnGetAsync(string NameSearch,string PhoneSearch)
+        public async Task OnGetAsync(string NameSearch,string PhoneSearch,string EmailSearch)
         {
             var sl = _context.Students.AsQueryable();
             if (!string.IsNullOrWhiteSpace(NameSearch))
                 sl = sl.Where(f => f.Name.Contains(NameSearch));
 
             if (!string.IsNullOrWhiteSpace(PhoneSearch))
-                sl = sl.Where(f => f.Name.Contains(PhoneSearch));
+                sl = sl.Where(f => f.PhoneNumber.Contains(PhoneSearch));
+            
+            if (!string.IsNullOrWhiteSpace(EmailSearch))
+                sl = sl.Where(f => f.Email.Contains(EmailSearch));
 
             Student = await sl.ToListAsync();
         }
