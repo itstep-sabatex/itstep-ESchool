@@ -19,11 +19,11 @@
         <li class="nav-item">
             @if (requestCulture.RequestCulture.UICulture.Name == "uk")
             {
-                <a class="nav-link text-dark" asp-page="Index" asp-page-handler="SetLanguage" asp-route-lang="en" asp-route-returnUrl="@returnUrl">Eng</a>
+                <a class="nav-link text-dark"  asp-page="/Index" asp-page-handler="SetLanguage" asp-route-lang="en" asp-route-returnUrl="@returnUrl">Eng</a>
             }
             else
             {
-                <a class="nav-link text-dark" asp-page="Index" asp-page-handler="SetLanguage" asp-route-lang="uk" asp-route-returnUrl="@returnUrl">Ukr</a>
+                <a class="nav-link text-dark" asp-page="/Index" asp-page-handler="SetLanguage" asp-route-lang="uk" asp-route-returnUrl="@returnUrl">Ukr</a>
             }
         </li>
     </ul>

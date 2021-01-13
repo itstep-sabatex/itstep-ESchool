@@ -53,7 +53,11 @@ namespace ESchoolRazor
 
             });
 
-            services.AddRazorPages().AddViewLocalization().AddDataAnnotationsLocalization();
+            services.AddRazorPages().AddViewLocalization()
+                .AddDataAnnotationsLocalization(options => {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
 
         }
 

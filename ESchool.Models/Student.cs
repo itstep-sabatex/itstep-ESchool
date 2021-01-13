@@ -31,7 +31,7 @@ namespace ESchool.Models
             });
 
         public int Id { get; set; }
-        [Display(Name = "Імя Прізвище ПоБатькові")]
+        [Display(Name = "Name LastName SurName")]
         [Required]
         public string Name { get; set; }
         [Display(Name = "День народження")]
