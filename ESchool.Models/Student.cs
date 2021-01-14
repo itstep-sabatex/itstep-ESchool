@@ -35,10 +35,12 @@ namespace ESchool.Models
         [Required]
         public string Name { get; set; }
         [Display(Name = "День народження")]
+        [DataType(DataType.Date)]
         public DateTime BithDay { get; set; }
         [Display(Name = "Телефон")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Електронна пошта")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         public FormOfEducation FormOfEducation { get; set; }

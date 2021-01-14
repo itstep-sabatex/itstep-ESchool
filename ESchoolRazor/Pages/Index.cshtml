@@ -1,11 +1,22 @@
 ﻿@page
 @model IndexModel
+@tagHelperPrefix th:
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Localizer["Home page"];
+
 }
 
 <div class="text-center">
+    <th:email mail-to="Director" />
+    @Html.Label("FirstName","First Name")
+   
+    <p bold>
+        Use bould
+    </p>
+    <th:bold>The bold tag</th:bold>
+    <th:esy-table my-property="ESchool.Models.Student.Students"></th:esy-table>
+
     <h1 class="display-4">@Localizer["Welcome"]</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
