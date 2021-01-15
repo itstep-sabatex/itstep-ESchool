@@ -31,7 +31,7 @@ namespace ESchoolRazor
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("SQLServer")));
+                    Configuration.GetSection("DataAccess:SQLServer").Value));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -76,7 +76,6 @@ namespace ESchoolRazor
             app.UseHttpsRedirection();
             app.UseRequestLocalization();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthentication();
