@@ -1,0 +1,23 @@
+@page
+@model ESchoolRazor.Pages.Students.ImportModel
+@inject ESchoolRazor.SharedViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer.GetLocalizedString("Import");
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" asp-for="ImportedFile">
+    <select asp-for="TypeId">
+        @foreach (var type in Model.DesTypes)
+        {
+            @if(type.Id == 1){
+                <option selected value="@type.Id">@type.Type</option>
+            }else{
+            <option value="@type.Id">@type.Type</option>
+            }
+        }
+    </select>
+    <input type="submit" value='@Localizer.GetLocalizedString("Submit")'>
+</form>

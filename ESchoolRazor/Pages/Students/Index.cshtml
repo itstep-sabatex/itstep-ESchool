@@ -1,55 +1,56 @@
 ﻿@page
 @model ESchoolRazor.Pages.Students.IndexModel
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject ESchoolRazor.SharedViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Localizer.GetLocalizedString("List of Students");
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+@if (Model.StudentsCount > 0)
+{
+    <div class="mt-4 w-100 d-flex justify-content-between align-items-center">
+    <h1>@Localizer.GetLocalizedString("List of Students")</h1>
+    <div class="d-flex">
+        @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-page="Import" class="btn btn-outline-dark shadow-sm px-4 py-2">@Localizer.GetLocalizedString("Import")</a>
+            }
+            <a asp-page="Create" class="btn ml-3 btn-outline-primary shadow-sm px-4 py-2">@Localizer.GetLocalizedString("Create Student")</a>
+            <form method="POST" class="ml-3">
+                <button type=" submit" class="btn btn-outline-success px-4 py-2">@Localizer.GetLocalizedString("Export")</button>
+            </form>
+        </div>
+    </div>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].BithDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student[0].Email)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Student) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BithDay)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <div class="continer w-100 h-100 d-flex justify-content-start">
+        <form id="filter_form">
+        <div class="form-group">
+            <label for="name" class="text-primary font-weight-light control-label" style="font-size: 25px;">@Localizer.GetLocalizedString("Filter by Name")</label>
+            <input class="form-control shadow-sm pl-3 text-primary border-primary" id="FilterByName"
+                asp-for="NameSearch" />
+        </div>
+        <div class="form-group">
+            <label for="phone" class="text-primary font-weight-light control-label"
+                style="font-size: 25px;">@Localizer.GetLocalizedString("Filter by Phone Number")</label>
+            <input class="form-control shadow-sm pl-3 text-primary border-primary" asp-for="PhoneSearch" />
+        </div>
+        <div class="form-group">
+            <label for="email" class="text-primary font-weight-light control-label"
+                style="font-size: 25px;">@Localizer.GetLocalizedString("Filter by Email")</label>
+            <input class="form-control shadow-sm pl-3 text-primary border-primary" asp-for="EmailSearch" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-outline-primary" value="Submit" />
+        </div>
+    </form>
+    </div>
+
+    <hr />
+
+    <div class="container d-flex p-0 m-0 align-items-center">
+    <span class="text-muted">@Localizer.GetLocalizedString("Count") : @Model.StudentsCount</span>
+</div>
 }
-    </tbody>
-</table>
+
+<easy-table students="Model.Student" is-auth="User.Identity.IsAuthenticated"></easy-table>

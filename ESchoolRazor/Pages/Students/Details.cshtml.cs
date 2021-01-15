@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ESchool.Models;
 using ESchoolRazor.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ESchoolRazor.Pages.Students
 {
+    [AllowAnonymous]
     public class DetailsModel : PageModel
     {
         private readonly ESchoolRazor.Data.ApplicationDbContext _context;
@@ -28,7 +30,7 @@ namespace ESchoolRazor.Pages.Students
                 return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
+            Student = await _context.Students.Include(s => s.Photo).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Student == null)
             {

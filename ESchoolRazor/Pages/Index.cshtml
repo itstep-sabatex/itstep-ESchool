@@ -1,10 +1,18 @@
 ﻿@page
 @model IndexModel
+@inject ESchoolRazor.SharedViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = Localizer.GetLocalizedString("Home");
+    @* Student student = Context.Students.SingleOrDefault(s => s.Id == 1); *@
 }
 
+@* <email mail-to="Director"></email><br/>
+<student student="@student" is-hidden="true"></student>
+<p bold>Use Bold</p>
+<bold>Use Bold Tag</bold> *@
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">@Localizer.GetLocalizedString("Welcome")</h1>
+    <p>@Localizer.GetLocalizedString("Learn about") <a href="https://docs.microsoft.com/aspnet/core">@Localizer.GetLocalizedString("building Web apps with ASP.NET Core")</a>.</p>
 </div>

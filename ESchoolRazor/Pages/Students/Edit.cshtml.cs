@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.Models;
 using ESchoolRazor.Data;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ESchoolRazor.Pages.Students
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly ESchoolRazor.Data.ApplicationDbContext _context;
@@ -22,6 +26,8 @@ namespace ESchoolRazor.Pages.Students
 
         [BindProperty]
         public Student Student { get; set; }
+        [BindProperty]
+        public IFormFile Photo { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,7 +36,7 @@ namespace ESchoolRazor.Pages.Students
                 return NotFound();
             }
 
-            Student = await _context.Students.FirstOrDefaultAsync(m => m.Id == id);
+            Student = await _context.Students.Include(s => s.Photo).FirstOrDefaultAsync(s => s.Id == id);
 
             if (Student == null)
             {
@@ -50,19 +56,57 @@ namespace ESchoolRazor.Pages.Students
 
             _context.Attach(Student).State = EntityState.Modified;
 
-            try
+            if (Photo != null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(Student.Id))
+                using (var memory = new MemoryStream())
                 {
-                    return NotFound();
+                    await Photo.CopyToAsync(memory);
+                    if (memory.Length < 2097152)
+                    {
+                        var file = new ProfilePhoto()
+                        {
+                            Photo = memory.ToArray()
+                        };
+                        _context.ProfilePhotos.Add(file);
+                        Student.Photo = file;
+                        _context.Students.Update(Student);
+
+                        try
+                        {
+                            await _context.SaveChangesAsync();
+                        }
+                        catch (DbUpdateConcurrencyException)
+                        {
+                            if (!StudentExists(Student.Id))
+                            {
+                                return NotFound();
+                            }
+                            else
+                            {
+                                throw;
+                            }
+                        }
+                    }
                 }
-                else
+            }
+            else
+            {
+                _context.Students.Update(Student);
+
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StudentExists(Student.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
 

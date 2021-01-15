@@ -19,6 +19,21 @@ namespace ESchoolRazor.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.Entity("ESchool.Models.ProfilePhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfilePhotos");
+                });
+
             modelBuilder.Entity("ESchool.Models.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -26,7 +41,7 @@ namespace ESchoolRazor.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("BithDay")
+                    b.Property<DateTime>("BirthDay")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -39,7 +54,12 @@ namespace ESchoolRazor.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PhotoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PhotoId");
 
                     b.ToTable("Students");
                 });
@@ -242,6 +262,15 @@ namespace ESchoolRazor.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ESchool.Models.Student", b =>
+                {
+                    b.HasOne("ESchool.Models.ProfilePhoto", "Photo")
+                        .WithMany()
+                        .HasForeignKey("PhotoId");
+
+                    b.Navigation("Photo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

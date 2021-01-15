@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ESchoolRazor.Services;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace ESchoolRazor.Pages
 {
@@ -20,6 +23,16 @@ namespace ESchoolRazor.Pages
         public void OnGet()
         {
 
+        }
+
+        public IActionResult OnGetSetLanguage(string lang, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang, lang)),
+                new CookieOptions { IsEssential = true, Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+            return LocalRedirect(returnUrl);
         }
     }
 }
